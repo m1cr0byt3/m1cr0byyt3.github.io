@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Visitas</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="./app.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js" integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <style>
+    .degradado {
+      background: linear-gradient(135deg, #1c1317, #2404a2);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid p-5 bg-primary text-white text-center degradado">
+  <h1>Visitantes</h1>
+  <p>Requests</p> 
+</div>
+  
+<div class="container mt-5 mb-5">
+
+    <div class="row height d-flex justify-content-center align-items-center">
+
+      <div class="col-md-7">
+
+        <div class="card">
+
+            <div class="p-3">
+                <h6>Logs 
+
+                    <a href="javascript:void(0)" class="btn btn-sm btn-success">
+                        Actualizar
+                        <span class="bi bi-arrow-clockwise" onclick="location.reload();" style="cursor: pointer;"></span>
+                    </a>
+                </h6>
+            </div>
+            
+
+
+          <div class="mt-2" id="visits">
+          
+        </div>
+        
+      </div>
+      
+    </div>
+    </div>
+    
+  </div>
+
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async function () {
+      let headersList = {
+        "Authorization": "Bearer b16336d79592f9576c5b07dce1e2a3d427682424142287ac159050308d53f5e0"
+      };
+
+      try {
+        let response = await fetch("https://api-visits-srmm.onrender.com/api/visits", { 
+          method: "GET",
+          headers: headersList
+        });
+
+        if (response.ok) {
+          let data = await response.json();
+          displayvisits(data);
+        } else {
+          console.error('Error en la solicitud:', response.status);
+        }
+      } catch (error) {
+        console.error('Error en la solicitud:', error);
+      }
+    });
+
+
+    moment.locale('es');
+
+    function displayvisits(visits) {
+      let visitsDiv = document.getElementById('visits');
+
+      if (visits.length === 0) {
+        visitsDiv.innerHTML = '<p class="text-center">No hay mensajes disponibles</p>';
+      } else {
+        visits.forEach(visit => {
+          let visitCard = document.createElement('div');
+          visitCard.classList.add('col');
+          const date= moment(visit.created_at).format('LLLL');
+
+          visitCard.innerHTML = `
+
+          <div class="d-flex flex-row p-3" >
+              <img src="https://static.vecteezy.com/system/resources/previews/010/148/287/original/who-icon-sign-symbol-design-free-png.png" width="40" height="40" class="rounded-circle mr-3">
+
+              <div class="w-100">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex flex-row align-items-center">
+                      <span class="mr-2"></span>
+                      <small class="c-badge degradado">${visit.x_forwarded_for}</small>
+                    </div>
+                    <small>🔥</small>
+              </div>
+
+              <p class="text-justify comment-text mb-0">host_user: ${visit.host_user}</p>
+
+              <div class="d-flex flex-row user-feed">
+                <span class="wish"><i class="fa fa-heartbeat mr-2"></i>${date}</span>
+
+
+                </div>
+                <div class="d-flex flex-row user-feed">
+                <span class="ml-3"><i class="fa fa-comments-o mr-2"></i>referer :${visit.referer}</span>
+
+
+                </div>
+              
+            </div>
+        </div>
+          `;
+          visitsDiv.appendChild(visitCard);
+        });
+      }
+    }
+  </script>
+
+</html>
