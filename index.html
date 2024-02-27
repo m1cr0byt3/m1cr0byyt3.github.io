@@ -91,6 +91,8 @@
           let messageCard = document.createElement('div');
           messageCard.classList.add('col');
           const date= moment(message.created_at).format('LLLL');
+          const messageContent = message.message.includes("https://api.telegram.org/") ? `<img src="${message.message}" class="img-fluid" alt="Imagen">` : message.message;
+
 
           messageCard.innerHTML = `
 
@@ -107,7 +109,7 @@
                     <small>🔥</small>
               </div>
 
-              <p class="text-justify comment-text mb-0">${message.message}</p>
+              <p class="text-justify comment-text mb-0">${messageContent}</p>
 
               <div class="d-flex flex-row user-feed">
                 <span class="wish"><i class="fa fa-heartbeat mr-2"></i>${date}</span>
