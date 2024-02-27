@@ -1,1 +1,59 @@
-ddddd
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-VyWj1tj4NTwQhXo8rLszL8+gZhRm6F8jL0Tjy0Jw0AiEZQ3Yohs1Hvp8sFwcIhD/" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>Messages</h1>
+    <div id="messagesList" class="mt-3"></div>
+  </div>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-QIj/9DlYO7KHCpruIOfdo9IFppONJfvcWY3jylHhMCa0MaH/X2r5PTF0f4xMViB2" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-WiXgvdj5C02ijIzJvJV+7zkC9eXvpPkWoO5QVQjO5xWA6qPMzmGnWQgwj3eVXa5w" crossorigin="anonymous"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async function () {
+      let headersList = {
+        "Authorization": "Bearer b16336d79592f9576c5b07dce1e2a3d427682424142287ac159050308d53f5e0"
+      };
+
+      try {
+        let response = await fetch("https://api-messages-srmm.onrender.com/api/messages", { 
+          method: "GET",
+          headers: headersList
+        });
+
+        if (response.ok) {
+          let data = await response.json();
+          displayMessages(data);
+        } else {
+          console.error('Error en la solicitud:', response.status);
+        }
+      } catch (error) {
+        console.error('Error en la solicitud:', error);
+      }
+    });
+
+    function displayMessages(messages) {
+      let messagesListDiv = document.getElementById('messagesList');
+
+      if (messages.length === 0) {
+        messagesListDiv.innerHTML = '<p>No hay mensajes disponibles</p>';
+      } else {
+        let messagesHTML = '<ul class="list-group">';
+        messages.forEach(message => {
+          messagesHTML += `<li class="list-group-item">${message.username}: ${message.message}</li>`;
+        });
+        messagesHTML += '</ul>';
+        messagesListDiv.innerHTML = messagesHTML;
+      }
+    }
+  </script>
+</body>
+</html>
