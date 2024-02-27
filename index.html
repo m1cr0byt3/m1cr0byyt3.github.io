@@ -1,29 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Messages</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-VyWj1tj4NTwQhXo8rLszL8+gZhRm6F8jL0Tjy0Jw0AiEZQ3Yohs1Hvp8sFwcIhD/" crossorigin="anonymous">
-  <style>
-    /* Personalización de estilos */
-    .message-card {
-      margin-bottom: 20px;
-    }
-  </style>
+  <title>Telegram</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="./app.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-  <div class="container mt-5">
-    <h1 class="text-center mb-4">Messages</h1>
-    <div id="messagesList" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"></div>
+
+<div class="container-fluid p-5 bg-primary text-white text-center">
+  <h1>Mensajes anónimos</h1>
+  <p>Respuestas</p> 
+</div>
+  
+<div class="container mt-5 mb-5">
+
+    <div class="row height d-flex justify-content-center align-items-center">
+
+      <div class="col-md-7">
+
+        <div class="card">
+
+          <div class="p-3">
+
+            <h6>Mensajes</h6>
+            
+          </div>
+
+
+          <div class="mt-2" id="messagesList">
+          
+        </div>
+        
+      </div>
+      
+    </div>
+    </div>
+    
   </div>
 
-  <!-- Bootstrap Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-QIj/9DlYO7KHCpruIOfdo9IFppONJfvcWY3jylHhMCa0MaH/X2r5PTF0f4xMViB2" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-WiXgvdj5C02ijIzJvJV+7zkC9eXvpPkWoO5QVQjO5xWA6qPMzmGnWQgwj3eVXa5w" crossorigin="anonymous"></script>
+</body>
 
-  <script>
+<script>
     document.addEventListener('DOMContentLoaded', async function () {
       let headersList = {
         "Authorization": "Bearer b16336d79592f9576c5b07dce1e2a3d427682424142287ac159050308d53f5e0"
@@ -56,17 +76,31 @@
           let messageCard = document.createElement('div');
           messageCard.classList.add('col');
           messageCard.innerHTML = `
-            <div class="card message-card">
-              <div class="card-body">
-                <h5 class="card-title">${message.username}</h5>
-                <p class="card-text">${message.message}</p>
+
+          <div class="d-flex flex-row p-3" >
+              <img src="https://static.vecteezy.com/system/resources/previews/010/148/287/original/who-icon-sign-symbol-design-free-png.png" width="40" height="40" class="rounded-circle mr-3">
+
+              <div class="w-100">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex flex-row align-items-center">
+                      <span class="mr-2"></span>
+                      <small class="c-badge">${message.username}</small>
+                    </div>
+                    <small>🔥</small>
               </div>
+
+              <p class="text-justify comment-text mb-0">${message.message}</p>
+
+              
+              
             </div>
+        </div>
           `;
           messagesListDiv.appendChild(messageCard);
         });
       }
     }
   </script>
-</body>
+
 </html>
