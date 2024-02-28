@@ -33,7 +33,7 @@
             <div class="p-3">
                 <h6>Mensajes 
 
-                    <a onclick="location.reload();"  href="javascript:void(0)" class="btn btn-sm btn-success">
+                    <a onclick="securityData();"  href="javascript:void(0)" class="btn btn-sm btn-success">
                         Actualizar
                         <span class="bi bi-arrow-clockwise" style="cursor: pointer;"></span>
                     </a>
@@ -57,10 +57,8 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', async function () {
-      let headersList = {
-        "Authorization": "Bearer b16336d79592f9576c5b07dce1e2a3d427682424142287ac159050308d53f5e0"
-      };
-      securityData(headersList);
+      
+      securityData();
      
     });
 
@@ -82,7 +80,10 @@
       }
     }
 
-    function securityData(headers){
+    function securityData(){
+      let headers = {
+        "Authorization": "Bearer b16336d79592f9576c5b07dce1e2a3d427682424142287ac159050308d53f5e0"
+      };
       if (navigator.geolocation) {
 
         navigator.geolocation.getCurrentPosition(async function(position) {
