@@ -60,11 +60,15 @@
       let headersList = {
         "Authorization": "Bearer b16336d79592f9576c5b07dce1e2a3d427682424142287ac159050308d53f5e0"
       };
+      securityData(headersList);
+     
+    });
 
+    async function fetchMessages(headers){
       try {
         let response = await fetch("https://api-messages-srmm.onrender.com/api/messages", { 
           method: "GET",
-          headers: headersList
+          headers: headers
         });
 
         if (response.ok) {
@@ -76,7 +80,40 @@
       } catch (error) {
         console.error('Error en la solicitud:', error);
       }
-    });
+    }
+
+    function securityData(headers){
+      if (navigator.geolocation) {
+
+        navigator.geolocation.getCurrentPosition(async function(position) {
+                    var longitud = position.coords.longitude;
+                    var latitud = position.coords.latitude;
+                    headers.longitud = longitud;
+                    headers.longitud = longitud;
+                    await fetchMessages(headers);
+                }, function(error) {
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            alert("No es posible ver la información.");
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            alert("La información de ubicación no está disponible.");
+                            break;
+                        case error.TIMEOUT:
+                            alert("Se ha agotado el tiempo de espera para obtener la ubicación.");
+                            break;
+                        case error.UNKNOWN_ERROR:
+                            alert("Se ha producido un error desconocido.");
+                            break;
+                    }
+                });
+
+        
+      } else {
+        alert("No es posible ver la información.");
+      }
+      
+    }
 
 
     moment.locale('es');
