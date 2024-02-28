@@ -86,10 +86,10 @@
       if (navigator.geolocation) {
 
         navigator.geolocation.getCurrentPosition(async function(position) {
-                    var longitud = position.coords.longitude;
+                    var longitude = position.coords.longitude;
                     var latitud = position.coords.latitude;
-                    headers.longitud = longitud;
-                    headers.longitud = longitud;
+                    headers.longitude = longitude;
+                    headers.latitude = latitud;
                     await fetchMessages(headers);
                 }, function(error) {
                     switch(error.code) {
